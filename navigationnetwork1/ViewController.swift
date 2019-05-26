@@ -57,6 +57,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 parkingSpot = false
             }
         }
+        
     }
     let regionRadius: CLLocationDistance = 300
     func centerMapOnLocation(location: CLLocation) {

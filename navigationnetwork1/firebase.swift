@@ -24,32 +24,27 @@ class firebase: UIViewController {
     
     func createParkingSpots(){
         
-        for n in 1...3 {
-            for i in 1...8 {
-                self.ref.child("Parking").child("\("Spot"), \(n),\(i)").setValue(["Car": nil])
-            }
+        for n in 1...24 {
+          self.ref.child("Parking").child("\("Spot"), \(n)").setValue(["Car": nil])
+            
         }
         
     }
     
-    func addcar(carname: String, carxpos: Int, carypos:Int){
-        self.ref.child("Car Name").child(carname).child("xpos").setValue(carxpos)
-        self.ref.child("Car Name").child(carname).child("ypos").setValue(carypos)
-        self.ref.child("Parking").child("\("Spot"), \(carxpos),\(carypos)").setValue(["Car": carname])
+    func addcar(carname: String, carpos: Int){
+        self.ref.child("Car Name").child(carname).child("pos").setValue(carpos)
+        self.ref.child("Parking").child("\("Spot"), \(carpos)").setValue(["Car": carname])
     }
     
     func removecar(carname: String){
-        var refHandle1 = ref.child("Car Name").child(carname).child("xpos").observe(DataEventType.value, with: { (snapshot) in
+        var refHandle1 = ref.child("Car Name").child(carname).child("pos").observe(DataEventType.value, with: { (snapshot) in
             let postDict = snapshot.value as? [Int : AnyObject] ?? [:]
             // ...
         })
-        var refHandle2 = ref.child("Car Name").child(carname).child("ypos").observe(DataEventType.value, with: { (snapshot) in
-            let postDict = snapshot.value as? [Int : AnyObject] ?? [:]
-            // ...
-        })
-        self.ref.child("Parking").child("\("Spot"), \(refHandle1),\(refHandle2)").setValue(["Car": nil])
-        self.ref.child("Car Name").child(carname).child("ypos").setValue(nil)
-        self.ref.child("Car Name").child(carname).child("xpos").setValue(nil)
+      
+        self.ref.child("Parking").child("\("Spot"), \(refHandle1)").setValue(["Car": nil])
+        self.ref.child("Car Name").child(carname).child("pos").setValue(nil)
+     
  
     }
     
