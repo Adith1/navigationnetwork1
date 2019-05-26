@@ -50,7 +50,7 @@ class firebase: UIViewController {
         self.ref.child("Parking").child("\("Spot"), \(refHandle1),\(refHandle2)").setValue(["Car": nil])
         self.ref.child("Car Name").child(carname).child("ypos").setValue(nil)
         self.ref.child("Car Name").child(carname).child("xpos").setValue(nil)
-
+ 
     }
     
     func checkForCar(position: String) -> Bool {
