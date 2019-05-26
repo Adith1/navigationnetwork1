@@ -8,9 +8,63 @@
 
 import UIKit
 import Firebase
+ var ref: DatabaseReference! = Database.database().reference()
+func createParkingSpots(){
+    
+    for n in 1...24 {
+        ref.child("Parking").child("\("Spot"), \(n)").setValue(["Car": nil])
+        
+    }
+    
+}
+
+func addcar(carname: String, carpos: Int){
+    ref.child("Car Name").child(carname).child("pos").setValue(carpos)
+    ref.child("Parking").child("\("Spot"), \(carpos)").setValue(["Car": carname])
+}
+
+func removecar(carname: String){
+    var refHandle1 = ref.child("Car Name").child(carname).child("pos").observe(DataEventType.value, with: { (snapshot) in
+        let postDict = snapshot.value as? [Int : AnyObject] ?? [:]
+        // ...
+    })
+    
+  ref.child("Parking").child("\("Spot"), \(refHandle1)").setValue(["Car": nil])
+  ref.child("Car Name").child(carname).child("pos").setValue(nil)
+    
+    
+}
+
+func removecarbypos(carpos: Int){
+    var refHandle1 = ref.child("Parking").child("\("Spot"), \(carpos)").child("Car").observe(DataEventType.value, with: { (snapshot) in
+        let postDict = snapshot.value as? [Int : AnyObject] ?? [:]
+        // ...
+    })
+    
+    ref.child("Parking").child("\("Spot"), \(carpos)").setValue(["Car": nil])
+    //ref.child("Car Name").child(refHandle1).child("pos").setValue(nil)
+    
+    
+}
+
+func checkForCar(position: String) -> Bool {
+    
+    var refHandle = ref.child("Parking").child(position).child("Car").observe(DataEventType.value, with: { (snapshot) in
+        let postDict = snapshot.value as? [String : AnyObject] ?? [:]
+        // ...
+        
+    })
+    
+    if(refHandle == nil){
+        return false
+    }
+    else{
+        return true
+    }
+}
 class firebase: UIViewController {
 
-    var ref: DatabaseReference! = Database.database().reference()
+   
     
 
     
@@ -22,47 +76,7 @@ class firebase: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    func createParkingSpots(){
-        
-        for n in 1...24 {
-          self.ref.child("Parking").child("\("Spot"), \(n)").setValue(["Car": nil])
-            
-        }
-        
-    }
-    
-    func addcar(carname: String, carpos: Int){
-        self.ref.child("Car Name").child(carname).child("pos").setValue(carpos)
-        self.ref.child("Parking").child("\("Spot"), \(carpos)").setValue(["Car": carname])
-    }
-    
-    func removecar(carname: String){
-        var refHandle1 = ref.child("Car Name").child(carname).child("pos").observe(DataEventType.value, with: { (snapshot) in
-            let postDict = snapshot.value as? [Int : AnyObject] ?? [:]
-            // ...
-        })
-      
-        self.ref.child("Parking").child("\("Spot"), \(refHandle1)").setValue(["Car": nil])
-        self.ref.child("Car Name").child(carname).child("pos").setValue(nil)
-     
- 
-    }
-    
-    func checkForCar(position: String) -> Bool {
-    
-       var refHandle = ref.child("Parking").child(position).child("Car").observe(DataEventType.value, with: { (snapshot) in
-            let postDict = snapshot.value as? [String : AnyObject] ?? [:]
-            // ...
-        
-        })
-        
-        if(refHandle == nil){
-            return false
-        }
-        else{
-            return true
-        }
-    }
+   
     /*
     // MARK: - Navigation
 9lo90989kii.lop0--------------------9877888888887

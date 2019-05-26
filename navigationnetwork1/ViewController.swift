@@ -36,7 +36,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var Button23: UIButton!
     @IBOutlet weak var Button24: UIButton!
     @IBOutlet weak var map: MKMapView!
-        
+    @IBOutlet weak var texfeild: UITextField!
+    
+    @IBOutlet weak var label: UILabel!
     let locationManager = CLLocationManager()
 
     var image = UIImage(named: "empty")
@@ -50,11 +52,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 sender.setBackgroundImage(UIImage(named: "car"), for: UIControl.State.normal)
                 tagger = sender.tag
                 parkingSpot = true
+                addcar(carname: "\("car"), \(tagger)", carpos: tagger)
             }
         }else{
             if(sender.tag == tagger){
                 sender.setBackgroundImage(UIImage(named: "empty"), for: UIControl.State.normal)
                 parkingSpot = false
+                removecar(carname: "\("car"), \(tagger)")
             }
         }
         
@@ -82,6 +86,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.startUpdatingLocation()
     }
 
+    @IBAction func check(_ sender: Any) {
+        
+        if(checkForCar(position: texfeild.text ?? "Pos25") == true){
+            label.text = "true"
+            
+        }
+        else{
+            label.text = "false"
 
+            
+        }
+    }
+    
 }
 
