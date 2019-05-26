@@ -26,7 +26,7 @@ class firebase: UIViewController {
         
         for n in 1...3 {
             for i in 1...8 {
-        self.ref.child("Parking").child("\("Spot"), \(n),\(i)").setValue(["Car": nil])
+                self.ref.child("Parking").child("\("Spot"), \(n),\(i)").setValue(["Car": nil])
             }
         }
         
